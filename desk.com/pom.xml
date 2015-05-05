@@ -57,6 +57,16 @@
 			<artifactId>resteasy-jaxrs</artifactId>
 			<version>${resteasy.dependency.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${resteasy.dependency.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<version>${resteasy.dependency.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
