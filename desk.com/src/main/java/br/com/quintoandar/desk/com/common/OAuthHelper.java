@@ -7,6 +7,8 @@ package br.com.quintoandar.desk.com.common;
  */
 public class OAuthHelper {
 
+	public static final String PARAM_NAME = "Authorization";
+	
 	private String accessKey;
 	private String accessSecret;
 	private String tokenKey;
@@ -44,6 +46,7 @@ public class OAuthHelper {
 		String nonce = (timestamp / 1000) + "";
 		return genAuthorizationHeader(timestamp,nonce);
 	}
+	
 	public String genAuthorizationHeader(long timestamp, String nonce) {
 		return String
 				.format("OAuth oauth_version=\"1.0\",oauth_timestamp=%d,oauth_nonce=%s,oauth_signature_method=\"PLAINTEXT\",oauth_consumer_key=\"%s\",oauth_token=\"%s\",oauth_signature=\"%s%%26%s\"",
