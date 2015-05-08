@@ -1,5 +1,9 @@
 package br.com.quintoandar.desk.com.api;
 
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -7,9 +11,12 @@ import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 
+import br.com.quintoandar.desk.com.cases.Case;
 import br.com.quintoandar.desk.com.cases.CaseApi;
 import br.com.quintoandar.desk.com.common.OAuthHelper;
+import br.com.quintoandar.desk.com.customer.Customer;
 import br.com.quintoandar.desk.com.customer.CustomerApi;
+import br.com.quintoandar.desk.com.users.User;
 import br.com.quintoandar.desk.com.users.UserApi;
 
 /**
@@ -26,9 +33,9 @@ public class DeskApiWrapper {
 	private String tokenSecret;
 	private OAuthHelper oauthHelper;
 	private String endpoint;
-	private UserApi userApi;
-	private CustomerApi customerApi;
-	private CaseApi caseApi;
+	private UserApi<User> userApi;
+	private CustomerApi<Customer> customerApi;
+	private CaseApi<Case> caseApi;
 
 	public DeskApiWrapper() {
 		this(DESK_COM_DEFAULT_ENDPOINT);
@@ -59,9 +66,22 @@ public class DeskApiWrapper {
 
 		ClientExecutor executor = new ApacheHttpClient4Executor(httpClient);
 
+		
 		userApi = ProxyFactory.create(UserApi.class, endpoint, executor);
 		customerApi = ProxyFactory.create(CustomerApi.class, endpoint, executor);
 		caseApi = ProxyFactory.create(CaseApi.class, endpoint, executor);
+	}
+	
+	public List<Customer> searchCustomer(Set<String> email, Set<String> externalId){
+		return customerApi.search(oauthHelper.genAuthorizationHeader(), null, null, email, externalId).get_embedded().getEntries();
+	}
+
+	public Customer showCustomer(BigInteger id){
+		return customerApi.show(oauthHelper.genAuthorizationHeader(), id.toString());
+	}
+	
+	public Customer newCustomer(Customer customer){
+		return customerApi.create(oauthHelper.genAuthorizationHeader(), customer);
 	}
 
 }
