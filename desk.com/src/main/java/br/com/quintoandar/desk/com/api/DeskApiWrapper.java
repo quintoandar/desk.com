@@ -1,6 +1,8 @@
 package br.com.quintoandar.desk.com.api;
 
 import java.math.BigInteger;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 
 import br.com.quintoandar.desk.com.cases.Case;
 import br.com.quintoandar.desk.com.cases.CaseApi;
+import br.com.quintoandar.desk.com.cases.Message;
 import br.com.quintoandar.desk.com.common.OAuthHelper;
 import br.com.quintoandar.desk.com.customer.Customer;
 import br.com.quintoandar.desk.com.customer.CustomerApi;
@@ -35,7 +38,7 @@ public class DeskApiWrapper {
 	private String endpoint;
 	private UserApi<User> userApi;
 	private CustomerApi<Customer> customerApi;
-	private CaseApi<Case> caseApi;
+	private CaseApi caseApi;
 
 	public DeskApiWrapper() {
 		this(DESK_COM_DEFAULT_ENDPOINT);
@@ -82,6 +85,24 @@ public class DeskApiWrapper {
 	
 	public Customer newCustomer(Customer customer){
 		return customerApi.create(oauthHelper.genAuthorizationHeader(), customer);
+	}
+
+	public Case newCase(Customer customer, Case newCase) {
+		return caseApi.createCase(oauthHelper.genAuthorizationHeader(), customer.getId(), newCase);
+	}
+
+	public List<User> searchUser(Set<String> emails) {
+		Set<User> usuarios = new LinkedHashSet<User>();
+		for(User us: userApi.users(oauthHelper.genAuthorizationHeader(), null, null).get_embedded().getEntries()) {
+			if(emails.contains(us.getEmail())){
+				usuarios.add(us);
+			}
+		}
+		return new LinkedList(usuarios);
+	}
+
+	public Message newMessage(BigInteger id, Message msg) {
+		return caseApi.createReplyCase(oauthHelper.genAuthorizationHeader(), id, msg);
 	}
 
 }

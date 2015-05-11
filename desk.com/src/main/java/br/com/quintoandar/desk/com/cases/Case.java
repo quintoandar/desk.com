@@ -8,13 +8,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import br.com.quintoandar.desk.com.common.DeskLink;
+import br.com.quintoandar.desk.com.common.DeskObj;
 
 /**
  * 
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  *
  */
-public class Case implements Serializable {
+public class Case extends DeskObj {
 	private static final long serialVersionUID = -1154351927373520883L;
 	String external_id;
 	String blurb;
