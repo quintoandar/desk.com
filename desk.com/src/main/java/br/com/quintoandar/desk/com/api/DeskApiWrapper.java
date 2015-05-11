@@ -77,6 +77,14 @@ public class DeskApiWrapper {
 		caseApi = ProxyFactory.create(CaseApi.class, endpoint, executor);
 	}
 	
+	/**
+	 * Returns if this wrapper is ready to be used. A.k.a. init() was called.
+	 * @return
+	 */
+	public boolean isReady(){
+		return oauthHelper != null;
+	}
+	
 	public List<Customer> searchCustomer(Set<String> email, Set<String> externalId) throws DeskComException{
 		try {
 			SearchCustomerResponse<Customer> customer = customerApi.search(oauthHelper.genAuthorizationHeader(), null, null, email, externalId);
