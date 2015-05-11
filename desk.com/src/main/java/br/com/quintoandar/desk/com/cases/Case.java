@@ -45,6 +45,12 @@ public class Case extends DeskObj {
 	@JsonProperty("_links")
 	Map<String, DeskLink> links = new TreeMap<String, DeskLink>();
 
+	/**
+	 * qna public url
+	 */
+	@JsonProperty("public_url")
+	public String publicUrl;
+
 	@JsonProperty("changed_at")
 	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
 	Date changedAt = new Date();
@@ -164,7 +170,19 @@ public class Case extends DeskObj {
 	public void setLinks(Map<String, DeskLink> links) {
 		this.links = links;
 	}
-	
+
+	/**
+	 * For when case is CaseType.qna
+	 * @return
+	 */
+	public String getPublicUrl() {
+		return publicUrl;
+	}
+
+	public void setPublicUrl(String publicUrl) {
+		this.publicUrl = publicUrl;
+	}
+
 	public Date getChangedAt() {
 		return changedAt;
 	}
