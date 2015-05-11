@@ -10,6 +10,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.jboss.resteasy.client.ClientExecutor;
+import org.jboss.resteasy.client.ClientResponseFailure;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 
@@ -19,6 +20,7 @@ import br.com.quintoandar.desk.com.cases.Message;
 import br.com.quintoandar.desk.com.common.OAuthHelper;
 import br.com.quintoandar.desk.com.customer.Customer;
 import br.com.quintoandar.desk.com.customer.CustomerApi;
+import br.com.quintoandar.desk.com.customer.SearchCustomerResponse;
 import br.com.quintoandar.desk.com.users.User;
 import br.com.quintoandar.desk.com.users.UserApi;
 
@@ -29,15 +31,15 @@ import br.com.quintoandar.desk.com.users.UserApi;
  */
 public class DeskApiWrapper {
 
-	private static final String DESK_COM_DEFAULT_ENDPOINT = "http://quin.to/";
+	private static final String DESK_COM_DEFAULT_ENDPOINT = "https://desk.com";
 	private String accessKey;
 	private String accessSecret;
 	private String token;
 	private String tokenSecret;
 	private OAuthHelper oauthHelper;
 	private String endpoint;
-	private UserApi<User> userApi;
-	private CustomerApi<Customer> customerApi;
+	private UserApi userApi;
+	private CustomerApi customerApi;
 	private CaseApi caseApi;
 
 	public DeskApiWrapper() {
@@ -75,34 +77,59 @@ public class DeskApiWrapper {
 		caseApi = ProxyFactory.create(CaseApi.class, endpoint, executor);
 	}
 	
-	public List<Customer> searchCustomer(Set<String> email, Set<String> externalId){
-		return customerApi.search(oauthHelper.genAuthorizationHeader(), null, null, email, externalId).get_embedded().getEntries();
+	public List<Customer> searchCustomer(Set<String> email, Set<String> externalId) throws DeskComException{
+		try {
+			SearchCustomerResponse<Customer> customer = customerApi.search(oauthHelper.genAuthorizationHeader(), null, null, email, externalId);
+			return customer.get_embedded().getEntries();
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
 	}
 
-	public Customer showCustomer(BigInteger id){
-		return customerApi.show(oauthHelper.genAuthorizationHeader(), id.toString());
+	public Customer showCustomer(BigInteger id) throws DeskComException{
+		try{
+			return customerApi.show(oauthHelper.genAuthorizationHeader(), id.toString());
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
 	}
 	
-	public Customer newCustomer(Customer customer){
-		return customerApi.create(oauthHelper.genAuthorizationHeader(), customer);
-	}
-
-	public Case newCase(Customer customer, Case newCase) {
-		return caseApi.createCase(oauthHelper.genAuthorizationHeader(), customer.getId(), newCase);
-	}
-
-	public List<User> searchUser(Set<String> emails) {
-		Set<User> usuarios = new LinkedHashSet<User>();
-		for(User us: userApi.users(oauthHelper.genAuthorizationHeader(), null, null).get_embedded().getEntries()) {
-			if(emails.contains(us.getEmail())){
-				usuarios.add(us);
-			}
+	public Customer newCustomer(Customer customer) throws DeskComException{
+		try{
+			return customerApi.create(oauthHelper.genAuthorizationHeader(), customer);
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
 		}
-		return new LinkedList(usuarios);
 	}
 
-	public Message newMessage(BigInteger id, Message msg) {
-		return caseApi.createReplyCase(oauthHelper.genAuthorizationHeader(), id, msg);
+	public Case newCase(Customer customer, Case newCase) throws DeskComException {
+		try {
+			return caseApi.createCase(oauthHelper.genAuthorizationHeader(), customer.getId(), newCase);
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
+	}
+
+	public List<User> searchUser(Set<String> emails) throws DeskComException {
+		Set<User> usuarios = new LinkedHashSet<User>();
+		try{
+			for(User us: userApi.users(oauthHelper.genAuthorizationHeader(), null, null).get_embedded().getEntries()) {
+				if(emails.contains(us.getEmail())){
+					usuarios.add(us);
+				}
+			}
+			return new LinkedList(usuarios);
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
+	}
+
+	public Message newMessage(BigInteger id, Message msg) throws DeskComException {
+		try {
+			return caseApi.createReplyCase(oauthHelper.genAuthorizationHeader(), id, msg);
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
 	}
 
 }
