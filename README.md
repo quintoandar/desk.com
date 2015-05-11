@@ -12,7 +12,7 @@ First add the repository:
   ...
   <repository>
     <id>QuintoAndar Repo Desk.com</id>
-    <url>https://raw.github.com/quintoandar/desk.com/master/mvn-repo</url>
+    <url>https://raw.githubusercontent.com/quintoandar/desk.com/master/mvn-repo</url>
   </repository>
   ...
 </repositories>
