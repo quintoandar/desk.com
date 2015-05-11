@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import br.com.quintoandar.desk.com.common.OAuthHelper;
 
 @Path("/api/v2")
-public interface UserApi<T extends User> {
+public interface UserApi {
 
 	/**
 	 * @see http://dev.desk.com/API/users/#list
@@ -24,7 +24,7 @@ public interface UserApi<T extends User> {
 	@GET
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchUserResponse<T> users(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("sort_field") @DefaultValue("id") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
+	public SearchUserResponse<User> users(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("sort_field") @DefaultValue("id") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
 
 	/**
 	 * @see http://dev.desk.com/API/users/#show
@@ -34,6 +34,6 @@ public interface UserApi<T extends User> {
 	@POST
 	@Path("/users/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public T show(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String userId);
+	public User show(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String userId);
 
 }

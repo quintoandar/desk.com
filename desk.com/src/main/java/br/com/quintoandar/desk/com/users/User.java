@@ -5,12 +5,14 @@ import java.util.Date;
 import br.com.quintoandar.desk.com.common.DeskObj;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @see http://dev.desk.com/API/users/#fields
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  * 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends DeskObj {
 	private static final long serialVersionUID = 3667092836804035933L;
 	String name;

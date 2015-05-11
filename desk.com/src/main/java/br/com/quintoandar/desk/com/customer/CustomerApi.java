@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import br.com.quintoandar.desk.com.common.OAuthHelper;
 
 @Path("/api/v2")
-public interface CustomerApi<T extends Customer> {
+public interface CustomerApi {
 
 	/**
 	 * @see http://dev.desk.com/API/customers/#search
@@ -28,7 +28,7 @@ public interface CustomerApi<T extends Customer> {
 	@GET
 	@Path("/customers/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchCustomerResponse<T> search(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("first_name") String firstName, @QueryParam("last_name") String lastName, @QueryParam("email") Set<String> emails, @QueryParam("external_id") Set<String> externalIds);
+	public SearchCustomerResponse<Customer> search(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("first_name") String firstName, @QueryParam("last_name") String lastName, @QueryParam("email") Set<String> emails, @QueryParam("external_id") Set<String> externalIds);
 
 	/**
 	 * @see http://dev.desk.com/API/customers/#show
@@ -38,7 +38,7 @@ public interface CustomerApi<T extends Customer> {
 	@GET
 	@Path("/customers/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public <T extends Customer> T show(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String customerId);
+	public Customer show(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String customerId);
 	
 	/**
 	 * @see http://dev.desk.com/API/customers/#show
@@ -49,5 +49,5 @@ public interface CustomerApi<T extends Customer> {
 	@Path("/customers")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public <T extends Customer> T create(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, Customer customer);
+	public Customer create(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, Customer customer);
 }

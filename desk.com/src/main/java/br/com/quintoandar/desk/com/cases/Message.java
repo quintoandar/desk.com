@@ -2,11 +2,14 @@ package br.com.quintoandar.desk.com.cases;
 
 import br.com.quintoandar.desk.com.common.DeskObj;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @see http://dev.desk.com/API/cases/#message-fields
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  * 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message extends DeskObj {
 	/**
 	 * 

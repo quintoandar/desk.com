@@ -11,6 +11,10 @@ public class DeskContact implements Serializable {
 	ContactType type;
 	String value;
 
+	public DeskContact(){
+		this(null,null);
+	}
+	
 	public DeskContact(ContactType type, String value) {
 		super();
 		this.type = type;

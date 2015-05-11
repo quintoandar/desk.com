@@ -11,11 +11,23 @@ public class DeskLink {
 	@JsonProperty("class")
 	private String klass;
 	
-	public static DeskLink create(Customer c){
-		DeskLink dl = new DeskLink();
-		dl.setHref(String.format("/apiv/v2/customer/%d",c.getId()));
-		dl.setKlass("customer");
+	public DeskLink() {
+		this(null,null);
+	}
+	
+	public DeskLink(String klass, String href) {
+		this.href = href;
+		this.klass = klass;
+	}
+	
+	public static DeskLink create(DeskObj c, String klass){
+		String apiName = c.getClass().getSimpleName().toLowerCase().replaceAll("([^s])$", "$1s");
+		DeskLink dl = new DeskLink(klass != null?klass:apiName, String.format("/api/v2/%s/%d",apiName,c.getId()));
 		return dl;
+	}
+
+	public static DeskLink create(Customer c){
+		return create(c, "customer");
 	}
 
 	public String getHref() {

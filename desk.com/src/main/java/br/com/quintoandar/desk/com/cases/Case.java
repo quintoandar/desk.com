@@ -1,7 +1,7 @@
 package br.com.quintoandar.desk.com.cases;
 
-import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -10,21 +10,28 @@ import java.util.TreeMap;
 import br.com.quintoandar.desk.com.common.DeskLink;
 import br.com.quintoandar.desk.com.common.DeskObj;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Case extends DeskObj {
 	private static final long serialVersionUID = -1154351927373520883L;
-	String external_id;
+	
+	@JsonProperty("external_id")
+	String externalId;
 	String blurb;
 	String subject;
 	/**
 	 * 1 - lowest
 	 * 10 - highest
 	 */
-	Integer priority;
+	Integer priority = 1;
 	String description;
 	CaseStatus status;
 	CaseType type;
@@ -33,14 +40,49 @@ public class Case extends DeskObj {
 	
 	List<String> labels = new LinkedList<String>();
 	
-	Map<String, DeskLink> _links = new TreeMap<String, DeskLink>();
+	List<BigInteger> labels_ids = new LinkedList<BigInteger>();
+	
+	@JsonProperty("_links")
+	Map<String, DeskLink> links = new TreeMap<String, DeskLink>();
 
-	public String getExternal_id() {
-		return external_id;
+	@JsonProperty("changed_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date changedAt = new Date();
+
+	@JsonProperty("active_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date activeAt;
+
+	@JsonProperty("received_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date receivedAt = new Date();
+	
+	@JsonProperty("locked_until")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date lockedUntil;
+
+	@JsonProperty("first_opened_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date firstOpenedAt;
+
+	@JsonProperty("opened_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date openedAt;
+
+	@JsonProperty("first_resolved_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date firstResolvedAt;
+
+	@JsonProperty("resolved_at")
+	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
+	Date resolvedAt;
+
+	public String getExternalId() {
+		return externalId;
 	}
 
-	public void setExternal_id(String external_id) {
-		this.external_id = external_id;
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 	public String getBlurb() {
@@ -99,6 +141,14 @@ public class Case extends DeskObj {
 		this.labels = labels;
 	}
 
+	public List<BigInteger> getLabels_ids() {
+		return labels_ids;
+	}
+
+	public void setLabels_ids(List<BigInteger> labels_ids) {
+		this.labels_ids = labels_ids;
+	}
+
 	public Message getMessage() {
 		return message;
 	}
@@ -107,11 +157,75 @@ public class Case extends DeskObj {
 		this.message = message;
 	}
 
-	public Map<String, DeskLink> get_links() {
-		return _links;
+	public Map<String, DeskLink> getLinks() {
+		return links;
 	}
 
-	public void set_links(Map<String, DeskLink> _links) {
-		this._links = _links;
+	public void setLinks(Map<String, DeskLink> links) {
+		this.links = links;
+	}
+	
+	public Date getChangedAt() {
+		return changedAt;
+	}
+
+	public void setChangedAt(Date changedAt) {
+		this.changedAt = changedAt;
+	}
+
+	public Date getActiveAt() {
+		return activeAt;
+	}
+
+	public void setActiveAt(Date activeAt) {
+		this.activeAt = activeAt;
+	}
+
+	public Date getReceivedAt() {
+		return receivedAt;
+	}
+
+	public void setReceivedAt(Date receivedAt) {
+		this.receivedAt = receivedAt;
+	}
+
+	public Date getLockedUntil() {
+		return lockedUntil;
+	}
+
+	public void setLockedUntil(Date lockedUntil) {
+		this.lockedUntil = lockedUntil;
+	}
+
+	public Date getFirstOpenedAt() {
+		return firstOpenedAt;
+	}
+
+	public void setFirstOpenedAt(Date firstOpenedAt) {
+		this.firstOpenedAt = firstOpenedAt;
+	}
+
+	public Date getOpenedAt() {
+		return openedAt;
+	}
+
+	public void setOpenedAt(Date openedAt) {
+		this.openedAt = openedAt;
+	}
+
+	public Date getFirstResolvedAt() {
+		return firstResolvedAt;
+	}
+
+	public void setFirstResolvedAt(Date firstResolvedAt) {
+		this.firstResolvedAt = firstResolvedAt;
+	}
+
+	public Date getResolvedAt() {
+		return resolvedAt;
+	}
+
+	public void setResolvedAt(Date resolvedAt) {
+		this.resolvedAt = resolvedAt;
 	}
 }

@@ -1,6 +1,8 @@
 package br.com.quintoandar.desk.com.common;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 /**
  * 
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
@@ -18,6 +20,8 @@ public class SearchResponse<T> {
 	String previous;
 	
 	EntriesEmbedded<T> _embedded;
+
+	Map<String, DeskLink> _links = new TreeMap<String, DeskLink>();
 	
 	public static class EntriesEmbedded<S> {
 		List<S> entries;
@@ -45,5 +49,9 @@ public class SearchResponse<T> {
 
 	public EntriesEmbedded<T> get_embedded() {
 		return _embedded;
+	}
+
+	public Map<String, DeskLink> get_links() {
+		return _links;
 	}
 }
