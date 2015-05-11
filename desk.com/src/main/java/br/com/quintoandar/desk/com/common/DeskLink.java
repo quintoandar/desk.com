@@ -26,8 +26,9 @@ public class DeskLink {
 	}
 	
 	public static DeskLink create(DeskObj c, String klass){
-		String apiName = c.getClass().getSimpleName().toLowerCase().replaceAll("([^s])$", "$1s");
-		DeskLink dl = new DeskLink(klass != null?klass:apiName, String.format("/api/v2/%s/%d",apiName,c.getId()));
+		String klassNameSing = c.getClass().getSimpleName().toLowerCase();
+		String klassNamePlural = klassNameSing.replaceAll("([^s])$", "$1s");
+		DeskLink dl = new DeskLink(klass != null?klass:klassNameSing, String.format("/api/v2/%s/%d",klassNamePlural,c.getId()));
 		return dl;
 	}
 
