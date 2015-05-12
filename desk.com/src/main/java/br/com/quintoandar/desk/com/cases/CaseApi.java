@@ -1,6 +1,7 @@
 package br.com.quintoandar.desk.com.cases;
 
 import java.math.BigInteger;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -28,7 +29,7 @@ public interface CaseApi {
 	@GET
 	@Path("/customers/{id}/cases")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchCaseResponse<Case> casesFromCustomer(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String customerId, @QueryParam("sort_field") @DefaultValue("created_at") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
+	public SearchCaseResponse<Case> casesFromCustomer(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, @QueryParam("sort_field") @DefaultValue("created_at") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
 
 	/**
 	 * @see http://dev.desk.com/API/customers/#cases
@@ -39,7 +40,7 @@ public interface CaseApi {
 	@Path("/cases")
 	@Produces(MediaType.APPLICATION_JSON)
 	public SearchCaseResponse<Case> cases(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("customer_id") String customerId, @QueryParam("company_id") String companyId);
-	
+
 
 	/**
 	 * @see http://dev.desk.com/API/cases/#create
@@ -52,6 +53,29 @@ public interface CaseApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Case createCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, Case newCase);
+	
+	/**
+	 * @see http://dev.desk.com/API/cases/#show
+	 * @param caseId
+	 * @param embed embed elements to be retrieved
+	 * @return
+	 */
+	@GET
+	@Path("/cases/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Case showCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger caseId, @QueryParam("embed") Set<String> embed);
+
+	/**
+	 * @see http://dev.desk.com/API/cases/#show
+	 * @param externalId
+	 * @param embed embed elements to be retrieved
+	 * @return
+	 */
+	@GET
+	@Path("/cases/e-{externalId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Case showCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("externalId") String externalId, @QueryParam("embed") Set<String> embed);
+	
 	/**
 	 * @see http://dev.desk.com/API/cases/#replies-create
 	 * @param customerId

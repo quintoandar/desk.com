@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import br.com.quintoandar.desk.com.common.DeskLink;
 import br.com.quintoandar.desk.com.common.DeskObj;
+import br.com.quintoandar.desk.com.users.User;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -245,5 +246,13 @@ public class Case extends DeskObj {
 
 	public void setResolvedAt(Date resolvedAt) {
 		this.resolvedAt = resolvedAt;
+	}
+
+	/**
+	 * Adds a link 'assigned_user' to this Case links.
+	 * @param assigned
+	 */
+	public void setAssignedUser(User assigned) {
+		assigned.addToLinks(getLinks(), "assigned_user");
 	}
 }

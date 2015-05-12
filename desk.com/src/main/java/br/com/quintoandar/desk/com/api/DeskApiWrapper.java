@@ -118,6 +118,26 @@ public class DeskApiWrapper {
 		}
 	}
 
+	/**
+	 * if caseId is present, case id. Other wise tries caseExternalId
+	 * @param caseId
+	 * @param caseExternalId
+	 * @param embeds (optional)
+	 * @return
+	 * @throws DeskComException
+	 */
+	public Case showCase(BigInteger caseId, String caseExternalId, Set<String> embeds) throws DeskComException {
+		try {
+			if(caseId != null){
+				return caseApi.showCase(oauthHelper.genAuthorizationHeader(), caseId,embeds);
+			} else {
+				return caseApi.showCase(oauthHelper.genAuthorizationHeader(), caseExternalId, embeds);
+			}
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
+	}
+
 	public List<User> searchUser(Set<String> emails) throws DeskComException {
 		Set<User> usuarios = new LinkedHashSet<User>();
 		try{
@@ -135,6 +155,22 @@ public class DeskApiWrapper {
 	public Message newMessage(BigInteger id, Message msg) throws DeskComException {
 		try {
 			return caseApi.createReplyCase(oauthHelper.genAuthorizationHeader(), id, msg);
+		}catch(ClientResponseFailure t){
+			throw new DeskComException(t);
+		}
+	}
+	
+	public List<Case> listCases(Customer customer) throws DeskComException {
+		return listCases(customer.getId());
+	}
+	
+	public List<Case> listCases(BigInteger customerId) throws DeskComException {
+		Set<Case> cases = new LinkedHashSet<Case>();
+		try {
+			for(Case kase:caseApi.casesFromCustomer(oauthHelper.genAuthorizationHeader(), customerId,null,null).get_embedded().getEntries()){
+				cases.add(kase);
+			}
+			return new LinkedList<Case>(cases);
 		}catch(ClientResponseFailure t){
 			throw new DeskComException(t);
 		}
