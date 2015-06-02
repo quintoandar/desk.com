@@ -16,14 +16,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * 
+ *
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Case extends DeskObj {
 	private static final long serialVersionUID = -1154351927373520883L;
-	
+
 	@JsonProperty("external_id")
 	String externalId;
 	String blurb;
@@ -36,13 +36,13 @@ public class Case extends DeskObj {
 	String description;
 	CaseStatus status;
 	CaseType type;
-	
+
 	Message message;
-	
+
 	List<String> labels = new LinkedList<String>();
-	
+
 	List<BigInteger> labels_ids = new LinkedList<BigInteger>();
-	
+
 	@JsonProperty("_links")
 	Map<String, DeskLink> links = new TreeMap<String, DeskLink>();
 
@@ -63,7 +63,7 @@ public class Case extends DeskObj {
 	@JsonProperty("received_at")
 	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
 	Date receivedAt = new Date();
-	
+
 	@JsonProperty("locked_until")
 	@JsonFormat(pattern = DATE_PATTERN, timezone = DATE_TIMEZONE)
 	Date lockedUntil;
@@ -246,6 +246,13 @@ public class Case extends DeskObj {
 
 	public void setResolvedAt(Date resolvedAt) {
 		this.resolvedAt = resolvedAt;
+	}
+
+	public BigInteger getAssignedUserId() {
+		if (this.links != null && this.links.containsKey("assigned_user") && this.links.get("assigned_user") != null) {
+			return this.links.get("assigned_user").getObjectId();
+		}
+		return null;
 	}
 
 	/**

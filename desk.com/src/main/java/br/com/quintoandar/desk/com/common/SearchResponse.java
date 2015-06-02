@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 /**
- * 
+ *
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  *
  * @param <T>
@@ -12,17 +12,17 @@ import java.util.TreeMap;
 public class SearchResponse<T> {
 
 	Integer page;
-	
+
 	Integer total_entries;
-	
+
 	String next;
-	
+
 	String previous;
-	
+
 	EntriesEmbedded<T> _embedded;
 
 	Map<String, DeskLink> _links = new TreeMap<String, DeskLink>();
-	
+
 	public static class EntriesEmbedded<S> {
 		List<S> entries;
 
@@ -53,5 +53,9 @@ public class SearchResponse<T> {
 
 	public Map<String, DeskLink> get_links() {
 		return _links;
+	}
+
+	public Boolean hasNextPage() {
+		return (_links.containsKey("next") && _links.get("next") != null);
 	}
 }

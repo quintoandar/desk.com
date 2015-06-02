@@ -4,27 +4,29 @@ import br.com.quintoandar.desk.com.customer.Customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.math.NumberUtils;
+import java.math.BigInteger;
 
 public class DeskLink {
 
 	private String href;
-	
+
 	@JsonProperty("class")
 	private String klass;
-	
+
 //	@JsonIgnoreProperties(ignoreUnknown = true)
 	@JsonIgnore
 	private Integer count;
-	
+
 	public DeskLink() {
 		this(null,null);
 	}
-	
+
 	public DeskLink(String klass, String href) {
 		this.href = href;
 		this.klass = klass;
 	}
-	
+
 	public static DeskLink create(DeskObj c, String klass){
 		String klassNameSing = c.getClass().getSimpleName().toLowerCase();
 		String klassNamePlural = klassNameSing.replaceAll("([^s])$", "$1s");
@@ -59,4 +61,16 @@ public class DeskLink {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
+
+	public BigInteger getObjectId() {
+		if (this.href != null && this.href.length() > 0) {
+			String[] parts = this.href.split("/");
+			String lastElement = parts[parts.length - 1];
+			if (NumberUtils.isNumber(lastElement)) {
+				return BigInteger.valueOf(Long.valueOf(lastElement));
+			}
+		}
+		return null;
+	}
+
 }
