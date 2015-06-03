@@ -14,8 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import br.com.quintoandar.desk.com.cases.Case;
-import br.com.quintoandar.desk.com.common.OAuthHelper;
 import br.com.quintoandar.desk.com.common.SearchResponse;
+import br.com.quintoandar.desk.com.common.auth.DeskOAuthProvider;
 
 @Path("/api/v2")
 public interface CompanyApi {
@@ -28,7 +28,7 @@ public interface CompanyApi {
 	@GET
 	@Path("/companies")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchResponse<Company> list(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("page") Integer page);
+	public SearchResponse<Company> list(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @QueryParam("page") Integer page);
 
 
 	/**
@@ -39,7 +39,7 @@ public interface CompanyApi {
 	@GET
 	@Path("/companies/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Company search(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger companyId);
+	public Company search(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") BigInteger companyId);
 
 	/**
 	 * @see http://dev.desk.com/API/companies/#cases-list
@@ -51,7 +51,7 @@ public interface CompanyApi {
 	@Path("/companies/{company_id}/cases")
 	@Produces(MediaType.APPLICATION_JSON)
 	public SearchResponse<Case> listCases(
-		@HeaderParam(OAuthHelper.PARAM_NAME) String auth,
+		@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth,
 		@PathParam("company_id") BigInteger companyId,
 		@QueryParam("page") Integer page
 	);

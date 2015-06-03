@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import br.com.quintoandar.desk.com.common.OAuthHelper;
+import br.com.quintoandar.desk.com.common.auth.DeskOAuthProvider;
 
 @Path("/api/v2")
 public interface UserApi {
@@ -24,7 +24,7 @@ public interface UserApi {
 	@GET
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchUserResponse<User> users(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("sort_field") @DefaultValue("id") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
+	public SearchUserResponse<User> users(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @QueryParam("sort_field") @DefaultValue("id") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
 
 	/**
 	 * @see http://dev.desk.com/API/users/#show
@@ -34,6 +34,6 @@ public interface UserApi {
 	@POST
 	@Path("/users/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User show(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") String userId);
+	public User show(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") String userId);
 
 }

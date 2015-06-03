@@ -14,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import br.com.quintoandar.desk.com.common.OAuthHelper;
+import br.com.quintoandar.desk.com.common.auth.DeskOAuthProvider;
 
 @Path("/api/v2")
 public interface CaseApi {
@@ -29,7 +29,7 @@ public interface CaseApi {
 	@GET
 	@Path("/customers/{id}/cases")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchCaseResponse<Case> casesFromCustomer(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, @QueryParam("sort_field") @DefaultValue("created_at") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
+	public SearchCaseResponse<Case> casesFromCustomer(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, @QueryParam("sort_field") @DefaultValue("created_at") String sortField, @QueryParam("sort_direction") @DefaultValue("asc") String sortDir);
 
 	/**
 	 * @see http://dev.desk.com/API/customers/#cases
@@ -39,7 +39,7 @@ public interface CaseApi {
 	@GET
 	@Path("/cases")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchCaseResponse<Case> cases(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @QueryParam("customer_id") String customerId, @QueryParam("company_id") String companyId);
+	public SearchCaseResponse<Case> cases(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @QueryParam("customer_id") String customerId, @QueryParam("company_id") String companyId);
 
 
 	/**
@@ -52,7 +52,7 @@ public interface CaseApi {
 	@Path("/customers/{id}/cases")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Case createCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, Case newCase);
+	public Case createCase(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") BigInteger customerId, Case newCase);
 	
 	/**
 	 * @see http://dev.desk.com/API/cases/#show
@@ -63,7 +63,7 @@ public interface CaseApi {
 	@GET
 	@Path("/cases/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Case showCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger caseId, @QueryParam("embed") Set<String> embed);
+	public Case showCase(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") BigInteger caseId, @QueryParam("embed") Set<String> embed);
 
 	/**
 	 * @see http://dev.desk.com/API/cases/#show
@@ -74,7 +74,7 @@ public interface CaseApi {
 	@GET
 	@Path("/cases/e-{externalId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Case showCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("externalId") String externalId, @QueryParam("embed") Set<String> embed);
+	public Case showCase(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("externalId") String externalId, @QueryParam("embed") Set<String> embed);
 	
 	/**
 	 * @see http://dev.desk.com/API/cases/#replies-create
@@ -86,6 +86,6 @@ public interface CaseApi {
 	@Path("/cases/{id}/reply")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Message createReplyCase(@HeaderParam(OAuthHelper.PARAM_NAME) String auth, @PathParam("id") BigInteger caseId, Message message);
+	public Message createReplyCase(@HeaderParam(DeskOAuthProvider.PARAM_NAME) String auth, @PathParam("id") BigInteger caseId, Message message);
 
 }
