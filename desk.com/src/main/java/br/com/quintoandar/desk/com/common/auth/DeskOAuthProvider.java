@@ -1,11 +1,12 @@
-package br.com.quintoandar.desk.com.common;
+package br.com.quintoandar.desk.com.common.auth;
+
 
 /**
  * @see https://support.desk.com/customer/portal/articles/476380-how-do-i-test-my-oauth-request-
  * @author <a href="mailto:mpereira@quintoandar.com.br">moa</a>
  * 
  */
-public class OAuthHelper {
+public class DeskOAuthProvider implements DeskAuthProvider {
 
 	public static final String PARAM_NAME = "Authorization";
 	
@@ -14,7 +15,7 @@ public class OAuthHelper {
 	private String tokenKey;
 	private String tokenSecret;
 
-	public OAuthHelper(String accessKey, String accessSecret, String tokenKey, String tokenSecret) {
+	public DeskOAuthProvider(String accessKey, String accessSecret, String tokenKey, String tokenSecret) {
 		super();
 		this.accessKey = accessKey;
 		this.accessSecret = accessSecret;
@@ -38,6 +39,7 @@ public class OAuthHelper {
 		return tokenSecret;
 	}
 
+	@Override
 	public String genAuthorizationHeader() {
 		return genAuthorizationHeader(System.currentTimeMillis());
 	}
