@@ -27,7 +27,7 @@ Then add the dependency artifact:
   <dependency>
     <groupId>br.com.quintoandar</groupId>
     <artifactId>desk.com</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
   </dependency>
   ...
 </dependencies>
@@ -43,6 +43,12 @@ String[] access =  {"acessKey","accessSecret"};
 wrap.setAccess(access[0],access[1]);
 String[] token =  {"yourTokenKey","yourTokenSecret"};
 wrap.setToken(token[0],token[1]);
+wrap.init();
+```
+Or basic auth:
+```java
+DeskApiWrapper wrap = new DeskApiWrapper("https://yoursite.desk.com");
+wrap.setBasicAuth("user","pass");
 wrap.init();
 ```
 
