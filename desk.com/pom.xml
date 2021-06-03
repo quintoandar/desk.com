@@ -118,7 +118,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
 		<internal.repo.path>${basedir}/../mvn-repo/</internal.repo.path>
-		<resteasy.dependency.version>3.0.9.Final</resteasy.dependency.version>
+		<resteasy.dependency.version>4.5.7.Final</resteasy.dependency.version>
 	</properties>
 
 	<!-- SCM -->
